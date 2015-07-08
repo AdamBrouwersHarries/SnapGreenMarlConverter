@@ -4,7 +4,7 @@ A small utility for converting (in one direction only) between graph file format
 
 ## Rationale
 
-Green-Marl[1] is a leading edge graph processing toolkit from stanfords pervasive parallelism laboratory. Unfortunately, Green-Marl uses a rather obtuse, badly documented binary format for describing graph files for processing. I wanted to be able to use example graphs from another of stanford's graph analysis toolkits, SNAP[2], but was unable to due to formatting differences. This small program is designed to solve that problem, and bridge the two frameworks; It allows the user to convert a graph file in the "SNAP" format to an equvilant file in the "Green-Marl" data format. 
+Green-Marl[1] is a leading edge graph processing toolkit from Stanford's "pervasive parallelism" laboratory. Unfortunately, Green-Marl uses a rather obtuse, badly documented binary format for describing graph files for processing. I wanted to be able to use example graphs from another of Stanford's graph analysis toolkits, SNAP[2], but was unable to due to formatting differences. This small program is designed to solve that problem, and bridge the two frameworks; It allows the user to convert a graph file in the "SNAP" format to an equivalent file in the "Green-Marl" data format. 
 
 ## Building
 
@@ -25,4 +25,5 @@ Where each node is an integer. The input and output files *must* be passed as th
 ## Links
 
 [1] https://github.com/stanford-ppl/Green-Marl
+
 [2] http://snap.stanford.edu/data/index.html
