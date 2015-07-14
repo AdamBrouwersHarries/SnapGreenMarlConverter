@@ -8,7 +8,7 @@ Green-Marl[1] is a leading edge graph processing toolkit from Stanford's "pervas
 
 ## Building
 
-This program assumes you already have a built and working installation of Green-Marl on your system, as if you'd run `git clone ...` then `make compiler` and `make apps`. Essentially, all that is needed to have a working installation of `gm_graph`. Once Green-Marl is installed, simply change the variable `GM_DIR` in the makefile to point to the installation of `gm_graph`. It should be located at `$(GREEN_MARL_DIRECTORY)/apps/output_cpp/gm_graph/`
+This program assumes you already have a built and working installation of Green-Marl on your system, as if you'd run `git clone ...` then `make compiler` and `make apps`. Essentially, all that is needed to have a working installation of `gm_graph`. Once Green-Marl is installed, first export `GM_DIR` to point to the installation of `gm_graph`. It should be located at `$(GREEN_MARL_DIRECTORY)/apps/output_cpp/gm_graph/`
 
 ## Running
 

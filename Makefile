@@ -1,5 +1,5 @@
 CC= g++
-GM_DIR = /home/adam/Documents/Green-Marl/apps/output_cpp/gm_graph
+# GM_DIR = /home/adam/Documents/Green-Marl/apps/output_cpp/gm_graph
 LIB = $(GM_DIR)/lib
 INC = $(GM_DIR)/inc
 BIN = bin
