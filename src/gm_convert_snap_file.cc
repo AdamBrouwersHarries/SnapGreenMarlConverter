@@ -42,11 +42,17 @@ node_t max_node(std::vector<pair<node_t, node_t> > list){
 
 int main(int argc, char** argv) {
   //super hacky: assume the first input is the source, the second is the output
+  struct timeval T1, T2;
+  
   char* inFile = argv[1];
   char* outFile = argv[2];
   printf("Converting: %s -> %s\n", inFile, outFile);
   //get the adjacency lists from the snap file
+  gettimeofday(&T1, NULL);
   vector< pair<node_t, node_t> > adj = parse_adjacency_file(inFile);
+  gettimeofday(&T2, NULL);
+  printf("File reading time (ms) = %lf\n", ((T2.tv_sec) - (T1.tv_sec)) * 1000 + (T2.tv_usec - T1.tv_usec) * 0.001);
+
 
   node_t N = max_node(adj)+1; //node count
   edge_t M = adj.size(); //edge count
@@ -64,7 +70,7 @@ int main(int argc, char** argv) {
   
   gm_graph* g = new gm_graph();
   g->prepare_external_creation(N, M);
-
+  gettimeofday(&T1, NULL);
   printf("Reading from vector to dense data.\n");
   //assign to our internal structures
   int pDone = 0;
@@ -99,8 +105,14 @@ int main(int argc, char** argv) {
     if(!(i%tM))
       printf("%d\n", pDone++);
   }
+  gettimeofday(&T2, NULL);
+  printf("Manipulation time (ms) = %lf\n", ((T2.tv_sec) - (T1.tv_sec)) * 1000 + (T2.tv_usec - T1.tv_usec) * 0.001);
+
   printf("Storing binary\n");
+  gettimeofday(&T1, NULL);
   g->store_binary(outFile);
+  gettimeofday(&T2, NULL);
+  printf("storing time (ms) = %lf\n", ((T2.tv_sec) - (T1.tv_sec)) * 1000 + (T2.tv_usec - T1.tv_usec) * 0.001);
   printf("Done, freeing memory\n");
   delete g;
   delete[] src;
