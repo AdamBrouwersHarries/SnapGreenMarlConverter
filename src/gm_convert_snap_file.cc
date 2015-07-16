@@ -46,23 +46,47 @@ int main(int argc, char** argv) {
   //get the adjacency lists from the snap file
   vector< pair<node_t, node_t> > adj = parse_adjacency_file(inFile);
 
-  node_t N = max_node(adj)+1;
+  node_t N = max_node(adj)+1; //node count
+  edge_t M = adj.size(); //edge count
+
+  // allocate space for edges, and degree counts
+  node_t* src = new node_t[M];
+  node_t* dst = new node_t[M];
+  node_t* deg = new edge_t[N];
+  memset(deg, 0, sizeof(edge_t) * N);
   
   gm_graph* g = new gm_graph();
-  for(node_t i = 0;i<N; i++){
-    g->add_node();
-  }
+  g->prepare_external_creation(N, M);
 
-  for(std::vector< pair<node_t, node_t> >::iterator it = adj.begin(); it!= adj.end(); ++it)
+  //assign to our internal structures
+  for(unsigned int i = 0; i<M; ++i) //iterate over edges - should use iterator :/
   {
-    node_t from = (*it).first;
-    node_t to = (*it).first;
-    g->add_edge(from,to);
+    src[i] = adj[i].first;
+    dst[i] = adj[i].second;
+    deg[src[i]]++;
   }
 
-  g->freeze();
+  //manually manipulate the sparse internal graph format
+  //see graph_gen.cc in $GREEN_MARL/apps/output_cpp/gm_graph/src
+  g->begin[0] = 0;
+  for (node_t i = 1; i <= N; i++) {
+    g->begin[i] = g->begin[i - 1] + deg[i - 1];
+  }
+
+  for (edge_t i = 0; i < M; i++) {
+    node_t u = src[i];
+    node_t v = dst[i];
+
+    edge_t pos = deg[u]--;
+    assert(pos > 0);
+    g->node_idx[g->begin[u] + pos - 1] = v;  // set end node of this edge
+  }
+
   g->store_binary(outFile);
 
   delete g;
+  delete[] src;
+  delete[] dst;
+  delete[] deg;
   return 0;
 }
