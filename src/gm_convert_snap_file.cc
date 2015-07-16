@@ -44,11 +44,17 @@ int main(int argc, char** argv) {
   //super hacky: assume the first input is the source, the second is the output
   char* inFile = argv[1];
   char* outFile = argv[2];
+  printf("Converting: %s -> %s\n", inFile, outFile);
   //get the adjacency lists from the snap file
   vector< pair<node_t, node_t> > adj = parse_adjacency_file(inFile);
 
   node_t N = max_node(adj)+1; //node count
   edge_t M = adj.size(); //edge count
+
+  printf("Found %i Nodes, %i Edges\n", N, M);
+  node_t tN = (N/100)+1;
+  edge_t tM = (M/100)+1;
+
 
   // allocate space for edges, and degree counts
   node_t* src = new node_t[M];
@@ -65,6 +71,8 @@ int main(int argc, char** argv) {
     src[i] = adj[i].first;
     dst[i] = adj[i].second;
     deg[src[i]]++;
+    if(!(i%tM))
+      printf("M:%i ", i);
   }
 
   //manually manipulate the sparse internal graph format
@@ -72,6 +80,8 @@ int main(int argc, char** argv) {
   g->begin[0] = 0;
   for (node_t i = 1; i <= N; i++) {
     g->begin[i] = g->begin[i - 1] + deg[i - 1];
+    if(!(i%tN))
+      printf("N:%i ", i);
   }
 
   for (edge_t i = 0; i < M; i++) {
@@ -81,6 +91,8 @@ int main(int argc, char** argv) {
     edge_t pos = deg[u]--;
     assert(pos > 0);
     g->node_idx[g->begin[u] + pos - 1] = v;  // set end node of this edge
+    if(!(i%tM))
+      printf("M:%i ", i);
   }
 
   g->store_binary(outFile);
