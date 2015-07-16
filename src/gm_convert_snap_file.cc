@@ -85,9 +85,11 @@ int main(int argc, char** argv) {
   //see graph_gen.cc in $GREEN_MARL/apps/output_cpp/gm_graph/src
   g->begin[0] = 0;
   for (node_t i = 1; i <= N; i++) {
-    printf("%i = %i + %i\n", g->begin[i], g->begin[i - 1], deg[i - 1]);
     g->begin[i] = g->begin[i - 1] + deg[i - 1];
-  }
+    if(deg[i-1] != 0){
+      printf("%i = %i + %i\n", g->begin[i], g->begin[i - 1], deg[i - 1]);
+    }
+  } 
   
   printf("Adding edges\n");
   for (edge_t i = 0; i < M; i++) {
