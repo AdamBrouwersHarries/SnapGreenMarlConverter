@@ -73,28 +73,23 @@ int main(int argc, char** argv) {
   gettimeofday(&T1, NULL);
   printf("Reading from vector to dense data.\n");
   //assign to our internal structures
-  int pDone = 0;
   for(unsigned int i = 0; i<M; ++i) //iterate over edges - should use iterator :/
   {
     src[i] = adj[i].first;
     dst[i] = adj[i].second;
     deg[src[i]]++;
-    if(!(i%tM))
-      printf("%d\n", pDone++);
   }
 
-  printf("Setting adjacencies:\n");
+  printf("Setting adjacencies\n");
   //manually manipulate the sparse internal graph format
   //see graph_gen.cc in $GREEN_MARL/apps/output_cpp/gm_graph/src
-  pDone = 0;
   g->begin[0] = 0;
   for (node_t i = 1; i <= N; i++) {
+    printf("%i = %i + %i\n", g->begin[i], g->begin[i - 1], deg[i - 1]);
     g->begin[i] = g->begin[i - 1] + deg[i - 1];
-    if(!(i%tN))
-      printf("%d\n", pDone);
   }
-  pDone = 0;
-  printf("Adding edges:\n");
+  
+  printf("Adding edges\n");
   for (edge_t i = 0; i < M; i++) {
     node_t u = src[i];
     node_t v = dst[i];
@@ -102,8 +97,6 @@ int main(int argc, char** argv) {
     edge_t pos = deg[u]--;
     assert(pos > 0);
     g->node_idx[g->begin[u] + pos - 1] = v;  // set end node of this edge
-    if(!(i%tM))
-      printf("%d\n", pDone++);
   }
   gettimeofday(&T2, NULL);
   printf("Manipulation time (ms) = %lf\n", ((T2.tv_sec) - (T1.tv_sec)) * 1000 + (T2.tv_usec - T1.tv_usec) * 0.001);
