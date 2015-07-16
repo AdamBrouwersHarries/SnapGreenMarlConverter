@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <map>
 #include <assert.h>
+#include <string.h>
 #include <sys/time.h>
 #include <fstream>
 
