@@ -99,9 +99,9 @@ int main(int argc, char** argv) {
     if(!(i%tM))
       printf("%d\n", pDone++);
   }
-
+  printf("Storing binary\n");
   g->store_binary(outFile);
-
+  printf("Done, freeing memory\n");
   delete g;
   delete[] src;
   delete[] dst;
