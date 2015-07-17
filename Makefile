@@ -14,9 +14,11 @@ vpath %.cc $(SRC)
 all: $(OUT) Makefile
 
 $(BIN)/gm_convert_snap_file: $(OBJ)/gm_convert_snap_file.o $(LIB)/libgmgraph.a
+	if [ ! -d bin ]; then mkdir bin; fi
 	$(CC) $(CFLAGS) $(OBJ)/gm_convert_snap_file.o $(LFLAGS) -L$(LIB) -lgmgraph -o $@	
 
 $(OBJ)/%.o: %.cc 
+	if [ ! -d obj ]; then mkdir obj; fi
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:

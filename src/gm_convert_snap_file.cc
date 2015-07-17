@@ -62,7 +62,7 @@ int main(int argc, char** argv) {
   // allocate space for edges, and degree counts
   node_t* src = new node_t[M];
   node_t* dst = new node_t[M];
-  node_t* deg = new edge_t[N];
+  edge_t* deg = new edge_t[N];
   memset(deg, 0, sizeof(edge_t) * N);
   
   gm_graph* g = new gm_graph();
